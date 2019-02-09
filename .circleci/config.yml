@@ -102,9 +102,9 @@ jobs:
 
       - run:
           command: |
-            if [ -d node_modules_pruned ]; then
+            if [ -d pruned_node_modules ]; then
               rm -rf node_modules
-              mv node_modules_pruned node_modules
+              mv pruned_node_modules node_modules
             fi
 
       - run: gcloud docker -- build -t gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} -f Dockerfile .
