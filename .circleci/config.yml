@@ -46,9 +46,9 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - dist
+            - build
 
-  unit-tests:
+  unit-test:
     docker:
       - image: circleci/node:11.9
 
@@ -62,6 +62,24 @@ jobs:
 
       - run: CI=true npm test
 
+  create-deploy-config:
+    machine: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: ./deploy/create-deploy-config.sh
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - config
+
   docker-publish:
     machine: true
 
@@ -73,10 +91,19 @@ jobs:
       - attach_workspace:
           at: .
 
-      - run: echo published
+      - run: gcloud config set project forgestatus
+
+      - run: echo ${GCP_SERVICE_ACCOUNT} > gcp-service-account.json
+
+      - run: gcloud auth activate-service-account --key-file gcp-service-account.json
+
+      - run: gcloud docker -- build -t gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} -f Dockerfile .
+
+      - run: ./deploy/push-image.sh
 
   deploy:
-    machine: true
+    docker:
+      - image: google/cloud-sdk
 
     working_directory: ~/repo
 
@@ -86,7 +113,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - run: echo deployed
+      - run: ./deploy/deploy.sh
 
 workflows:
   version: 2
@@ -99,6 +126,9 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
+      - create-deploy-config:
+          requires:
+            - install-dependencies
       - docker-publish:
           context: forgestatus
           requires:
@@ -107,4 +137,5 @@ workflows:
       - deploy:
           context: forgestatus
           requires:
+            - create-deploy-config
             - docker-publish

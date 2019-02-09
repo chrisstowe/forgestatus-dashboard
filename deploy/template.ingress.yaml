@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: forgestatus-ingress-${ENV}
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ${ENV}-forgestatus
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: forgestatus-dashboard-service-${ENV}
+          servicePort: 80
