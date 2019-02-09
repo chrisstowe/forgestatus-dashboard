@@ -1,0 +1,110 @@
+version: 2
+jobs:
+  install-dependencies:
+    docker:
+      - image: circleci/node:11.9
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ .Environment.CIRCLE_BRANCH }}-{{ checksum "package.json" }}
+            - v1-dependencies-{{ .Environment.CIRCLE_BRANCH }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          key: v1-dependencies-{{ .Environment.CIRCLE_BRANCH }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+
+  build:
+    docker:
+      - image: circleci/node:11.9
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: npm run build
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  unit-tests:
+    docker:
+      - image: circleci/node:11.9
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: CI=true npm test
+
+  docker-publish:
+    machine: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: echo published
+
+  deploy:
+    machine: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: echo deployed
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - install-dependencies
+      - build:
+          requires:
+            - install-dependencies
+      - unit-test:
+          requires:
+            - install-dependencies
+      - docker-publish:
+          context: forgestatus
+          requires:
+            - build
+            - unit-test
+      - deploy:
+          context: forgestatus
+          requires:
+            - docker-publish
