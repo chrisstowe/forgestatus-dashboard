@@ -1,9 +1,5 @@
 #!/bin/bash
 
-set -x
-set -e
-set -o allexport
-
 if [ ${CIRCLE_BRANCH} = 'master' ]; then
     ENV=prod
 else
@@ -16,7 +12,7 @@ echo ${GCP_SERVICE_ACCOUNT} > gcp-service-account.json
 
 gcloud auth activate-service-account --key-file gcp-service-account.json
 
-gcloud container clusters get-credentials forgestatus-cluster
+gcloud container clusters get-credentials forgestatus-cluster --zone us-west2-a
 
 envsubst < ./deploy/deployment.in.yaml > ./deploy/deployment.out.yaml
 kubectl apply -f ./deploy/deployment.out.yaml
