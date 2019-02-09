@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [ ${CIRCLE_BRANCH} = 'master' ]; then
-    ENV=prod
+    export ENV=prod
 else
-    ENV=dev
+    export ENV=dev
 fi
 
 mkdir config
