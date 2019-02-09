@@ -62,27 +62,6 @@ jobs:
 
       - run: CI=true npm test
 
-  prune-dev-dependencies:
-    docker:
-      - image: circleci/node:11.9
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: .
-
-      - run: npm prune --production
-
-      - run: mv node_modules pruned_node_modules
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - pruned_node_modules
-
   docker-publish:
     machine: true
 
@@ -99,13 +78,6 @@ jobs:
       - run: gcloud -q config set project forgestatus
 
       - run: gcloud auth activate-service-account --key-file gcp-service-account.json
-
-      - run:
-          command: |
-            if [ -d pruned_node_modules ]; then
-              rm -rf node_modules
-              mv pruned_node_modules node_modules
-            fi
 
       - run: gcloud docker -- build -t gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} -f Dockerfile .
 
@@ -135,13 +107,9 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
-      - prune-dev-dependencies:
-          requires:
-            - install-dependencies
       - docker-publish:
           context: forgestatus
           requires:
-            - prune-dev-dependencies
             - build
             - unit-test
       - deploy:
