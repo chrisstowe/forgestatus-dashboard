@@ -97,7 +97,8 @@ jobs:
               gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}-branch-`echo ${CIRCLE_BRANCH} | sed -e 's/[^a-zA-Z0-9\-]/-/g'`
 
   deploy:
-    machine: true
+    docker:
+      - image: google/cloud-sdk
 
     working_directory: ~/repo
 
