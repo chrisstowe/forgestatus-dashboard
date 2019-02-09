@@ -62,6 +62,24 @@ jobs:
 
       - run: CI=true npm test
 
+  create-deploy-config:
+    machine: true
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: .
+
+      - run: ./deploy/create-deploy-config.sh
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - config
+
   docker-publish:
     machine: true
 
@@ -81,20 +99,7 @@ jobs:
 
       - run: gcloud docker -- build -t gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} -f Dockerfile .
 
-      - run:
-          command: |
-            gcloud docker -- push gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
-
-            if [ ${CIRCLE_BRANCH} = 'master' ]; then
-              gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-                gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:latest
-            else
-              gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-                gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}-pr-`echo ${CIRCLE_PULL_REQUEST} | grep -om1 '[0-9]\+$'`
-            fi
-
-            gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-              gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}-branch-`echo ${CIRCLE_BRANCH} | sed -e 's/[^a-zA-Z0-9\-]/-/g'`
+      - run: ./deploy/push-image.sh
 
   deploy:
     docker:
@@ -121,6 +126,9 @@ workflows:
       - unit-test:
           requires:
             - install-dependencies
+      - create-deploy-config:
+          requires:
+            - install-dependencies
       - docker-publish:
           context: forgestatus
           requires:
@@ -129,4 +137,5 @@ workflows:
       - deploy:
           context: forgestatus
           requires:
+            - create-deploy-config
             - docker-publish
