@@ -141,7 +141,7 @@ workflows:
       - docker-publish:
           context: forgestatus
           requires:
-            - pruned-dev-dependencies
+            - prune-dev-dependencies
             - build
             - unit-test
       - deploy:

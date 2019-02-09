@@ -7,3 +7,10 @@
 A visual dashboard for forgestatus 📊
 
 ----
+
+## How to run locally
+
+```
+$ npm i
+$ npm start
+```
