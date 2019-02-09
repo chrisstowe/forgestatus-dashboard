@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# transpiled code
+build/
+
+# editors
+.vs/
+.vscode/
+.idea/
+
+# misc
+.DS_STORE
