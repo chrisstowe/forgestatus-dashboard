@@ -70,9 +70,6 @@ jobs:
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
       - run: ./deploy/create-deploy-config.sh
 
       - persist_to_workspace:
@@ -101,9 +98,6 @@ jobs:
 
     steps:
       - checkout
-
-      - attach_workspace:
-          at: .
 
       - run: ./deploy/deploy.sh
 
