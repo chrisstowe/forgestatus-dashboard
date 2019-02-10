@@ -6,17 +6,19 @@ echo ${GCP_SERVICE_ACCOUNT} > gcp-service-account.json
 
 gcloud auth activate-service-account --key-file gcp-service-account.json
 
-gcloud docker -- build -t gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} -f Dockerfile .
+DOCKER_NAME=gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}
 
-gcloud docker -- push gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+gcloud docker -- build -t ${DOCKER_NAME}:${CIRCLE_SHA1} -f Dockerfile .
+
+gcloud docker -- push ${DOCKER_NAME}:${CIRCLE_SHA1}
 
 if [ ${CIRCLE_BRANCH} = 'master' ]; then
-    gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-        gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:latest
+    gcloud container images add-tag ${DOCKER_NAME}:${CIRCLE_SHA1} \
+        ${DOCKER_NAME}latest
 else
-    gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-        gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}-pr-`echo ${CIRCLE_PULL_REQUEST} | grep -om1 '[0-9]\+$'`
+    gcloud container images add-tag ${DOCKER_NAME}:${CIRCLE_SHA1} \
+        ${DOCKER_NAME}${CIRCLE_SHA1}-pr-`echo ${CIRCLE_PULL_REQUEST} | grep -om1 '[0-9]\+$'`
 fi
 
-gcloud container images add-tag gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} \
-    gcr.io/forgestatus/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}-branch-`echo ${CIRCLE_BRANCH} | sed -e 's/[^a-zA-Z0-9\-]/-/g'`
+gcloud container images add-tag ${DOCKER_NAME}:${CIRCLE_SHA1} \
+    ${DOCKER_NAME}:${CIRCLE_SHA1}-branch-`echo ${CIRCLE_BRANCH} | sed -e 's/[^a-zA-Z0-9\-]/-/g'`
