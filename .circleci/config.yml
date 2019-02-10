@@ -91,7 +91,7 @@ jobs:
       - attach_workspace:
           at: .
 
-      - run: ./deploy/push-image.sh
+      - run: ./deploy/build-push-image.sh
 
   deploy:
     docker:
