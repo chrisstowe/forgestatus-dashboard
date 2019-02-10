@@ -99,6 +99,9 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: .
+
       - run: ./deploy/deploy.sh
 
 workflows:
