@@ -8,11 +8,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: forgestatus-dashboard-service-${ENV}
           servicePort: 80
-      - path: /*
+      - path: /api
         backend:
           serviceName: forgestatus-server-service-${ENV}
           servicePort: 80
