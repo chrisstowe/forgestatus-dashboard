@@ -8,6 +8,11 @@ A visual dashboard for displaying distributed system status and metrics. 📊
 
 This is a visual dashboard for [forgestatus](https://github.com/chrisstowe/forgestatus)
 
+### Live Builds
+
+Dev: dev.forgestatus.com
+Prod: forgestatus.com
+
 ## How to run locally
 
 ```
