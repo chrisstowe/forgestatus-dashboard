@@ -12,7 +12,7 @@ spec:
         backend:
           serviceName: forgestatus-dashboard-service-${ENV}
           servicePort: 80
-      - path: /api
+      - path: /api/*
         backend:
           serviceName: forgestatus-server-service-${ENV}
           servicePort: 80
