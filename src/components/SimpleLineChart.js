@@ -52,8 +52,8 @@ class SimpleLineChart extends React.Component {
         const { data } = this.state;
         return (
             <LineChart
-                width={400}
-                height={300}
+                width={330}
+                height={270}
                 data={data}
             >
                 <XAxis dataKey="name" />
