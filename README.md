@@ -10,7 +10,7 @@ This is a visual dashboard for [forgestatus](https://github.com/chrisstowe/forge
 
 ### Live Builds
 
-[forgestatus.com[](http://forgestatus.com)
+[forgestatus.com](http://forgestatus.com)
 
 [dev.forgestatus.com](http://dev.forgestatus.com)
 
