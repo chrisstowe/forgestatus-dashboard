@@ -7,7 +7,7 @@ const handleTestServer = async (url) => {
             .get(`${url}/api/getStatus`)
             .timeout({ response: 2000 });
 
-        alert(`status=${resp.status} body=${resp.body}`);
+        alert(`status=${resp.status} body=${resp}`);
     } catch(err) {
         alert(`err=${JSON.stringify(err)}`);
     }
