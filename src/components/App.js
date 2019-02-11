@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TestServer from './TestServer';
+
 const App = () => (
     <div>
         <h1>ForgeStatus Dashboard</h1>
@@ -9,6 +11,7 @@ const App = () => (
         <br />
         <h2>ForgeStatus Dashboard Repo</h2>
         <a href="https://github.com/chrisstowe/forgestatus-dashboard">https://github.com/chrisstowe/forgestatus-dashboard</a>
+        <TestServer />
     </div>
 );
 
