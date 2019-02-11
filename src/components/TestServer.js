@@ -4,7 +4,7 @@ import request from 'superagent';
 const handleTestClicked = async (serviceName) => {
     try {
         const resp = await request
-            .get(`${serviceName}/status`)
+            .get(`/${serviceName}/status`)
             .timeout({ response: 2000 });
         alert(`status=${resp.status}: ${resp.text}`);
     } catch(err) {
