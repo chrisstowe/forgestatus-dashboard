@@ -4,7 +4,6 @@ metadata:
   name: forgestatus-ingress-${ENV}
   annotations:
     kubernetes.io/ingress.global-static-ip-name: ${ENV}-forgestatus
-    ingress.kubernetes.io/cache-enable: "false"
 spec:
   rules:
   - http:
@@ -13,17 +12,33 @@ spec:
         backend:
           serviceName: forgestatus-dashboard-service-${ENV}
           servicePort: 80
+      - path: /server
+        backend:
+          serviceName: forgestatus-server-service-${ENV}
+          servicePort: 80
       - path: /server/*
         backend:
           serviceName: forgestatus-server-service-${ENV}
+          servicePort: 80
+      - path: /worker1
+        backend:
+          serviceName: forgestatus-worker-1-service-${ENV}
           servicePort: 80
       - path: /worker1/*
         backend:
           serviceName: forgestatus-worker-1-service-${ENV}
           servicePort: 80
+      - path: /worker2
+        backend:
+          serviceName: forgestatus-worker-2-service-${ENV}
+          servicePort: 80
       - path: /worker2/*
         backend:
           serviceName: forgestatus-worker-2-service-${ENV}
+          servicePort: 80
+      - path: /worker3
+        backend:
+          serviceName: forgestatus-worker-1-service-${ENV}
           servicePort: 80
       - path: /worker3/*
         backend:
