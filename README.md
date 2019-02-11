@@ -10,8 +10,9 @@ This is a visual dashboard for [forgestatus](https://github.com/chrisstowe/forge
 
 ### Live Builds
 
-Dev: dev.forgestatus.com
-Prod: forgestatus.com
+[forgestatus.com[](http://forgestatus.com)
+
+[dev.forgestatus.com](http://dev.forgestatus.com)
 
 ## How to run locally
 
