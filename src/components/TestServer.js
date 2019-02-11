@@ -1,10 +1,10 @@
 import React from 'react';
 import request from 'superagent';
 
-const handleTestClicked = async (serviceName) => {
+const handleTestClicked = async () => {
     try {
         const resp = await request
-            .get(`/${serviceName}/status`)
+            .get('/api/status')
             .timeout({ response: 2000 });
         alert(`status=${resp.status}: ${resp.text}`);
     } catch(err) {
@@ -14,11 +14,8 @@ const handleTestClicked = async (serviceName) => {
 
 const TestServer = () => (
     <div>
-        <button onClick={() => handleTestClicked('server')}>
+        <button onClick={() => handleTestClicked()}>
             Test Server
-        </button>
-        <button onClick={() => handleTestClicked('worker1')}>
-            Test Worker
         </button>
     </div>
 );

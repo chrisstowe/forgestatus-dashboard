@@ -12,35 +12,11 @@ spec:
         backend:
           serviceName: forgestatus-dashboard-service-${ENV}
           servicePort: 80
-      - path: /server
+      - path: /api
         backend:
           serviceName: forgestatus-server-service-${ENV}
           servicePort: 80
-      - path: /server/*
+      - path: /api/*
         backend:
           serviceName: forgestatus-server-service-${ENV}
-          servicePort: 80
-      - path: /worker1
-        backend:
-          serviceName: forgestatus-worker-1-service-${ENV}
-          servicePort: 80
-      - path: /worker1/*
-        backend:
-          serviceName: forgestatus-worker-1-service-${ENV}
-          servicePort: 80
-      - path: /worker2
-        backend:
-          serviceName: forgestatus-worker-2-service-${ENV}
-          servicePort: 80
-      - path: /worker2/*
-        backend:
-          serviceName: forgestatus-worker-2-service-${ENV}
-          servicePort: 80
-      - path: /worker3
-        backend:
-          serviceName: forgestatus-worker-1-service-${ENV}
-          servicePort: 80
-      - path: /worker3/*
-        backend:
-          serviceName: forgestatus-worker-3-service-${ENV}
           servicePort: 80
