@@ -4,7 +4,7 @@ import request from 'superagent';
 const handleTestServer = async (url) => {
     try {
         const resp = await request
-            .get(`${url}/api/health`)
+            .get(`${url}/api/getStatus`)
             .timeout({ response: 2000 });
 
         alert(`status=${resp.status} body=${resp.body}`);
