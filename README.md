@@ -17,6 +17,12 @@ This is a visual dashboard for [forgestatus](https://github.com/chrisstowe/forge
 ## How to run locally
 
 ```
+$ docker-compose up
+```
+
+## Install locally
+
+```
 $ npm i
 $ npm start
 ```
