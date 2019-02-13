@@ -1,0 +1,10 @@
+# This should only be used for development purposes.
+# This was created to allow users to build and run (without installing node).
+version: '3'
+services:
+  website:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - "3000:3000"
