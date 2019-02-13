@@ -30,7 +30,7 @@ This is for demo purposes.
 
 A webserver is started and the client can be reached at localhost:3000.
 
-A locally running instance of [forgestatus.com](http://forgestatus.com) is also required.
+A locally running instance of [forgestatus](https://github.com/chrisstowe/forgestatus) is also required.
 
 ```
 $ docker-compose up
@@ -39,7 +39,7 @@ $ docker-compose up
 ## NPM
 
 This is for local development purposes.
-A locally running instance of [forgestatus.com](http://forgestatus.com) is also required.
+A locally running instance of [forgestatus](https://github.com/chrisstowe/forgestatus) is also required.
 
 ```
 $ npm i
