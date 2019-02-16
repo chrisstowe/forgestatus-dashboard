@@ -2,15 +2,19 @@
 # This was created to allow users to build and run (without installing node).
 FROM node:11.9-alpine
 
+# Set the work dir and user for better security.
 WORKDIR /opt/app
+RUN addgroup -S appgroup && \
+    adduser -S appuser -G appgroup
+USER appuser
 
 COPY public ./public
 COPY package.json .
 
-# Copy this last, since it is likely to change the most
+# This is most likely to change, so copy last.
 COPY src ./src
 
-RUN npm i
+RUN npm install
 
 EXPOSE 3000
 
