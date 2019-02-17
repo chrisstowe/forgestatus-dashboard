@@ -7,4 +7,3 @@ gcloud container clusters get-credentials forgestatus-cluster --zone us-west2-a
 
 kubectl apply -f ./config/deployment.yaml
 kubectl apply -f ./config/service.yaml
-kubectl apply -f ./config/ingress.yaml
