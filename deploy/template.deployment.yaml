@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: forgestatus-dashboard
-namespace: ${ENV}
+  namespace: ${ENV}
 spec:
   replicas: 2
   strategy:
