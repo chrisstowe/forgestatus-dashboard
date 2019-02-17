@@ -5,7 +5,7 @@ FROM openresty/openresty:1.13.6.2-1-alpine
 
 WORKDIR /opt/app
 
-# install app
+# Copy static files.
 COPY build ./build
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

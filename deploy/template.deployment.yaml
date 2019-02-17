@@ -1,7 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: forgestatus-dashboard-${ENV}
+  name: forgestatus-dashboard
+  namespace: ${ENV}
 spec:
   replicas: 2
   strategy:
@@ -9,23 +10,30 @@ spec:
   template:
     metadata:
       labels:
-        app: forgestatus-dashboard-${ENV}
+        app: forgestatus-dashboard
     spec:
       containers:
-      - name: forgestatus-dashboard-${ENV}
+      - name: forgestatus-dashboard
         image: gcr.io/forgestatus/forgestatus-dashboard:${CIRCLE_SHA1}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "0.15Gi"
+            cpu: 0.075
+          limits:
+            memory: "0.3Gi"
+            cpu: 0.15
         livenessProbe:
           httpGet:
-            path: /health
+            path: /status/healthy
             port: 80
           initialDelaySeconds: 20
           periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /health
+            path: /status/ready
             port: 80
           initialDelaySeconds: 20
           periodSeconds: 10

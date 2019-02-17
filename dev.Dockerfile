@@ -7,11 +7,11 @@ WORKDIR /opt/app
 COPY public ./public
 COPY package.json .
 
-# Copy this last, since it is likely to change the most
+# This is most likely to change, so copy last.
 COPY src ./src
 
-RUN npm i
+RUN npm install
 
-EXPOSE 3000
+EXPOSE 80
 
 ENTRYPOINT [ "npm", "start" ]
