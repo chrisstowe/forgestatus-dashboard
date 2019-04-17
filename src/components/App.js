@@ -6,7 +6,7 @@ import './app.css';
 
 const App = () => (
     <div className="demo">
-        <h1>ForgeStatus Dashboard Demo</h1>
+        <h1>ForgeStatus Dashboard Demo2</h1>
         <SimpleLineChart />
         <p>Active work is in progress, please check back soon.</p>
         <h2>ForgeStatus Repo</h2>
